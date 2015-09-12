@@ -68,11 +68,12 @@ function ready (error, wmata) {
 
   // we're just going to pick the first series for now
   var data = wmata[0].ridership;
+  var station = wmata[0].station;
 
-  render(data);  
+  render(data, station);
 }
 
-function render(data) {
+function render(data, station) {
   var entries = d3.entries(data);
 
   x.domain(d3.keys(data));
@@ -93,7 +94,13 @@ function render(data) {
 
   chart.append("g")
       .attr("class", "y axis")
-      .call(yAxis);
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Ridership");
 
   chart.selectAll(".bar")
       .data(entries)
