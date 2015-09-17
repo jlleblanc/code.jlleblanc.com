@@ -23,15 +23,18 @@
 
 </style>
 <svg class="chart"></svg>
+<div>based on <a href="http://bost.ocks.org/mike/bar/3/">Let's Make A Chart, III</a></div>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script>
 
+// Chart dimension setup
 var margin = {top: 20, right: 30, bottom: 30, left: 40},
     width = 1024 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
+// Set up scales for x and y axis
 var x = d3.scale.ordinal()
     .rangeRoundBands([0, width], .1);
 
@@ -46,12 +49,14 @@ var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left");
 
+// Find the chart area and add element to set the area
 var chart = d3.select(".chart")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+// Load the data and kick it to `ready` once loaded
 queue()
   .defer(d3.csv, "2015_historical_rail_ridership.csv", function  (d) {
     var station = d.Station;
@@ -82,16 +87,19 @@ function render(data, station) {
 
   var barWidth = width / entries.length;
 
+  // Set up data points, they get transformed below
   var bar = chart.selectAll("g")
       .data(entries)
     .enter().append("g")
       .attr("transform", function(d, i) { return "translate(" + i * barWidth + ",0)"; });
 
+  // Horizontal axis: Year
   chart.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis);
 
+  // Vertical axis: ridership
   chart.append("g")
       .attr("class", "y axis")
       .call(yAxis)
@@ -102,6 +110,7 @@ function render(data, station) {
       .style("text-anchor", "end")
       .text("Ridership");
 
+  // Data displayed as bars
   chart.selectAll(".bar")
       .data(entries)
     .enter().append("rect")
