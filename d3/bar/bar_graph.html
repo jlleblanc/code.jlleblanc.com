@@ -22,7 +22,7 @@
 }
 
 </style>
-<svg class="chart"></svg>
+<svg id="chart"></svg>
 <div id="station-selector"></div>
 <div>based on <a href="http://bost.ocks.org/mike/bar/3/">Let's Make A Chart, III</a></div>
 <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -51,7 +51,7 @@ var yAxis = d3.svg.axis()
     .orient("left");
 
 // Find the chart area and add element to set the area
-var chart = d3.select(".chart")
+var chart = d3.select("#chart")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
@@ -76,12 +76,11 @@ function ready (error, _wmata) {
 
   // Set this in the outer scope so we don't have to pass it around/
   wmata = _wmata
+  
+  create_station_selector(wmata);
 
   // we're just going to pick the first series for now
-  var data = wmata[0].ridership;
-  var station = wmata[0].station;
-  create_station_selector(wmata);
-  render(data, station);
+  render(wmata[0].ridership, wmata[0].station);
 }
 
 function create_station_selector (wmata) {
@@ -98,12 +97,9 @@ function create_station_selector (wmata) {
 }
 
 function changeStation () {
-  var selectedValue = d3.event.target.value;  
+  var selectedValue = d3.event.target.value;
 
-  var data = wmata[selectedValue].ridership;
-  var station = wmata[selectedValue].station;
-
-  render(data, station);
+  render(wmata[selectedValue].ridership, wmata[selectedValue].station);
 }
 
 function render(data, station) {
@@ -111,9 +107,14 @@ function render(data, station) {
 
   x.domain(d3.keys(data));
   // must convert values to integers because they come through as strings from CSV
-  y.domain([0, d3.max(d3.values(data), function (d) { return parseInt(d, 10) }) ]); 
+  // y.domain([0, d3.max(d3.values(data), function (d) { return parseInt(d, 10) }) ]); 
+  y.domain([0, 38000 ]); 
 
   var barWidth = width / entries.length;
+
+  // First, clear anything out that was here before
+  chart.selectAll('g').remove();
+  chart.selectAll('.bar').remove();
 
   // Set up data points, they get transformed below
   var bar = chart.selectAll("g")
