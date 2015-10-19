@@ -23,6 +23,7 @@
 
 </style>
 <svg class="chart"></svg>
+<div id="station-selector"></div>
 <div>based on <a href="http://bost.ocks.org/mike/bar/3/">Let's Make A Chart, III</a></div>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
@@ -56,6 +57,8 @@ var chart = d3.select(".chart")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+var wmata = {};
+
 // Load the data and kick it to `ready` once loaded
 queue()
   .defer(d3.csv, "2015_historical_rail_ridership.csv", function  (d) {
@@ -68,12 +71,37 @@ queue()
   })
   .await(ready);
 
-function ready (error, wmata) {
+function ready (error, _wmata) {
   if (error) throw error;
+
+  // Set this in the outer scope so we don't have to pass it around/
+  wmata = _wmata
 
   // we're just going to pick the first series for now
   var data = wmata[0].ridership;
   var station = wmata[0].station;
+  create_station_selector(wmata);
+  render(data, station);
+}
+
+function create_station_selector (wmata) {
+  var dropdown = d3.select('#station-selector').append('select');
+
+  var options = dropdown.selectAll('option')
+                  .data(wmata)
+                .enter()
+                  .append('option')
+                    .text(function (d) { return d.name })
+                    .attr('value', function  (d, i) { return i });
+
+  dropdown.on('change', changeStation);
+}
+
+function changeStation () {
+  var selectedValue = d3.event.target.value;  
+
+  var data = wmata[selectedValue].ridership;
+  var station = wmata[selectedValue].station;
 
   render(data, station);
 }
