@@ -23,7 +23,9 @@
 
 </style>
 <svg id="chart"></svg>
-<div id="station-selector"></div>
+<div id="station-selector">
+  <label>Fixed range <input type="checkbox" value="0" id="fixed-range" /></label>
+</div>
 <div>based on <a href="http://bost.ocks.org/mike/bar/3/">Let's Make A Chart, III</a></div>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
@@ -78,7 +80,7 @@ function ready (error, _wmata) {
   wmata = _wmata
   
   create_station_selector(wmata);
-
+  create_static_range_toggle();
   // we're just going to pick the first series for now
   render(wmata[0].ridership, wmata[0].station);
 }
@@ -96,8 +98,16 @@ function create_station_selector (wmata) {
   dropdown.on('change', changeStation);
 }
 
+function create_static_range_toggle () {
+  var checkbox = d3.select('#fixed-range');
+
+  checkbox.on('change', function  () {
+    checkbox.attr('value', 1 - this.value)
+  })
+}
+
 function changeStation () {
-  var selectedValue = d3.event.target.value;
+  var selectedValue = this.value;
 
   render(wmata[selectedValue].ridership, wmata[selectedValue].station);
 }
@@ -107,8 +117,13 @@ function render(data, station) {
 
   x.domain(d3.keys(data));
   // must convert values to integers because they come through as strings from CSV
-  // y.domain([0, d3.max(d3.values(data), function (d) { return parseInt(d, 10) }) ]); 
-  y.domain([0, 38000 ]); 
+  var maxHeight = 38000;
+
+  if(d3.select('#fixed-range')[0][0].value == 0) {
+    maxHeight = d3.max(d3.values(data), function (d) { return parseInt(d, 10) });
+  }
+
+  y.domain([0, maxHeight]); 
 
   var barWidth = width / entries.length;
 
