@@ -63,7 +63,7 @@ var wmata = {};
 
 // Load the data and kick it to `ready` once loaded
 queue()
-  .defer(d3.csv, "2015_historical_rail_ridership.csv", function  (d) {
+  .defer(d3.csv, "../data/2015_historical_rail_ridership.csv", function  (d) {
     var station = d.Station;
     delete d.Station;
     return {
