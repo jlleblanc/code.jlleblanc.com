@@ -1,0 +1,53 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#7e7e7e",
+        "marker-size": "medium",
+        "marker-symbol": "",
+        "name": "Mary Moore Searight"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.80110836029053,
+          30.161232176244045
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#7e7e7e",
+        "marker-size": "medium",
+        "marker-symbol": "",
+        "name": "Red Bud Isle"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.7872359752655,
+          30.291107585236563
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#7e7e7e",
+        "marker-size": "medium",
+        "marker-symbol": "",
+        "name": "Zilker Park"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.7724838256836,
+          30.268917630126296
+        ]
+      }
+    }
+  ]
+}
