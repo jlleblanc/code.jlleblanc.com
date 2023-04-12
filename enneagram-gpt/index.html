@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Enneagram Website</title>
+    <style>
+      /* Set global styles */
+      * {
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      h1, h2 {
+        text-align: center;
+      }
+
+      /* Style the type buttons */
+      div > button {
+        margin: 10px;
+        padding: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 10px;
+        border: none;
+        background-color: #D6EAF8;
+        cursor: pointer;
+      }
+
+      div > button:hover {
+        background-color: #AED6F1;
+      }
+
+      /* Style the overview section */
+      #overview {
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 600px;
+        border: 2px solid #D6EAF8;
+        border-radius: 10px;
+      }
+
+      #overview h2 {
+        margin: 0;
+      }
+
+      #typeInfo {
+        font-size: 16px;
+        text-align: justify;
+      }
+
+      /* Style the health and stress links */
+      div > ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      div > li {
+        margin: 10px;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 10px;
+        border: 2px solid #D6EAF8;
+        background-color: #F2F3F4;
+      }
+
+      div > li:hover {
+        background-color: #D5DBDB;
+      }
+
+    </style>
+    <script src="enneagram.js"></script>
+  </head>
+  <body>
+    <h1>Enneagram Types</h1>
+    <div>
+      <button id="type1">Type 1</button>
+      <button id="type2">Type 2</button>
+      <button id="type3">Type 3</button>
+      <button id="type4">Type 4</button>
+      <button id="type5">Type 5</button>
+      <button id="type6">Type 6</button>
+      <button id="type7">Type 7</button>
+      <button id="type8">Type 8</button>
+      <button id="type9">Type 9</button>
+    </div>
+    <div id="overview">
+      <h2>Type Overview</h2>
+      <p id="typeInfo">Select a type to see more information.</p>
+    </div>
+    <div>
+      <h2>Health Links</h2>
+      <ul id="healthLinks"></ul>
+    </div>
+    <div>
+      <h2>Stress Links</h2>
+      <ul id="stressLinks"></ul>
+    </div>
+  </body>
+</html>
